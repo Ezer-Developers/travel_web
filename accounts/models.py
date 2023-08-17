@@ -66,3 +66,13 @@ class CustomUserGroup(models.Model):
 class CustomUserPermission(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     permission = models.ForeignKey(Permission, on_delete=models.CASCADE)
+
+
+
+class UserProfile(models.Model):
+    user            =models.OneToOneField(CustomUser,on_delete=models.CASCADE)
+    profile_picture =models.ImageField(upload_to='profile_pictures/', blank=True)
+    bio             =models.TextField(blank=True)
+
+    def __str__(self):
+        return self.user.email

@@ -1,7 +1,12 @@
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
+from .models import UserProfile,CustomUser
+
 
 User = get_user_model()
+
+
+# signup and login
 
 class NormalUserRegistrationSerializer(serializers.ModelSerializer):
     password_1 = serializers.CharField(write_only=True, style={'input_type': 'password'})
@@ -49,3 +54,18 @@ class OtherUserRegistrationSerializer(serializers.ModelSerializer):
         user.set_password(password)
         user.save()
         return user
+# ____________________________________________________________________________________________________________________________
+    
+# User profile update and userprofile view
+
+class UserProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserProfile
+        fields = ['bio', 'profile_picture']
+
+class CustomUserSerializer(serializers.ModelSerializer):
+    userprofile = UserProfileSerializer()
+
+    class Meta:
+        model = CustomUser
+        fields = ['mobile', 'userprofile','country_code','company_website','designation','annual_revenue','portfolio',] 
